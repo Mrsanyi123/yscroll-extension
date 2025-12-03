@@ -1,70 +1,64 @@
 // Settings page logic
-let dailyLimit = 30;
 let sessionLimit = 5;
+let coolDown = 5;
 
 // Load saved settings
 async function loadSettings() {
-  chrome.storage.local.get(['dailyLimit', 'sessionLimit'], (data) => {
-    if (data.dailyLimit) {
-      dailyLimit = data.dailyLimit;
-      updateDailyDisplay();
-    }
-    if (data.sessionLimit) {
-      sessionLimit = data.sessionLimit;
-      updateSessionDisplay();
-    }
+  chrome.storage.local.get(['dailyLimit', 'sessionLimit', 'coolDown'], (data) => {
+    dailyLimit = data.dailyLimit || 60;
+    sessionLimit = data.sessionLimit || 5;
+    coolDown = data.coolDown || 30;
+    
+    updateDisplay();
   });
 }
 
-// Update daily limit display
-function updateDailyDisplay() {
-  document.getElementById('dailyLimitDisplay').textContent = dailyLimit;
+// Update all displays
+function updateDisplay() {
   document.getElementById('dailyValue').textContent = dailyLimit;
-}
-
-// Update session limit display
-function updateSessionDisplay() {
-  document.getElementById('sessionLimitDisplay').textContent = sessionLimit;
   document.getElementById('sessionValue').textContent = sessionLimit;
+  document.getElementById('coolValue').textContent = coolDown;
 }
 
-// Daily limit controls
-document.getElementById('dailyIncrement').addEventListener('click', () => {
-  dailyLimit = Math.min(dailyLimit + 5, 180); // Max 3 hours
-  updateDailyDisplay();
-});
+// Adjust function for all settings
+function adjust(type, amount) {
+  if (type === 'daily') {
+    dailyLimit = Math.max(5, Math.min(180, dailyLimit + amount));
+  } else if (type === 'session') {
+    sessionLimit = Math.max(1, Math.min(60, sessionLimit + amount));
+  } else if (type === 'cool') {
+    coolDown = Math.max(1, Math.min(30, coolDown + amount));
+  }
+  updateDisplay();
+}
 
-document.getElementById('dailyDecrement').addEventListener('click', () => {
-  dailyLimit = Math.max(dailyLimit - 5, 5); // Min 5 minutes
-  updateDailyDisplay();
-});
-
-// Session limit controls
-document.getElementById('sessionIncrement').addEventListener('click', () => {
-  sessionLimit = Math.min(sessionLimit + 1, 60); // Max 1 hour
-  updateSessionDisplay();
-});
-
-document.getElementById('sessionDecrement').addEventListener('click', () => {
-  sessionLimit = Math.max(sessionLimit - 1, 1); // Min 1 minute
-  updateSessionDisplay();
-});
-
-// Save settings and close
-document.getElementById('finishBtn').addEventListener('click', async () => {
+// Save settings
+async function saveSettings() {
   await chrome.storage.local.set({
     dailyLimit,
-    sessionLimit
+    sessionLimit,
+    coolDown
   });
   
   // Show confirmation
-  const btn = document.getElementById('finishBtn');
-  btn.textContent = 'Saved!';
-  btn.style.background = '#10b981';
+  const btn = document.querySelector('.save-btn');
+  const icon = btn.querySelector('i');
+  const originalHTML = btn.innerHTML;
+  
+  btn.classList.add('saved');
+  btn.innerHTML = '<i data-lucide="check-circle"></i> Saved!';
+  lucide.createIcons();
   
   setTimeout(() => {
-    window.close();
-  }, 500);
+    btn.classList.remove('saved');
+    btn.innerHTML = originalHTML;
+    lucide.createIcons();
+  }, 2000);
+}
+
+// Back button - navigate back to popup
+document.getElementById('backBtn').addEventListener('click', () => {
+  window.location.href = 'popup.html';
 });
 
 // Initialize

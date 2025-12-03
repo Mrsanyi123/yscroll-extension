@@ -35,7 +35,7 @@ const Limits = {
 
   // Get remaining time for session limit
   async getRemainingSessionTime(sessionTime) {
-    return new Promise((resolve) => {
+    return new Promise((resolve) => { 
       chrome.storage.local.get(['sessionLimit'], (data) => {
         const sessionLimit = data.sessionLimit || 5;
         const remaining = Math.max(0, sessionLimit - sessionTime);

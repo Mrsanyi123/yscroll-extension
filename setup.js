@@ -1,6 +1,7 @@
 // Setup page logic - runs only once on first install
 let dailyLimit = 30;
 let sessionLimit = 5;
+let coolDown = 5;
 
 // Update daily limit display
 function updateDailyDisplay() {
@@ -41,6 +42,7 @@ document.getElementById('finishBtn').addEventListener('click', async () => {
   await chrome.storage.local.set({
     dailyLimit,
     sessionLimit,
+    coolDown,
     isActive: true,
     setupComplete: true, // Mark that setup has been completed
     platforms: {

@@ -105,9 +105,9 @@ function updateProgressCircle(used, limit) {
 
 // Setup event listeners
 function setupEventListeners() {
-  // Settings button
+  // Settings button - open settings in same popup window
   document.getElementById('settingsBtn').addEventListener('click', () => {
-    chrome.tabs.create({ url: chrome.runtime.getURL('settings.html') });
+    window.location.href = 'settings.html';
   });
   
   // Platform toggles
