@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YScroll Settings</title>
-  <link rel="stylesheet" href="settings.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YScroll</title>
+  <link rel="stylesheet" href="settings.css" />
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
 <body>
   <div class="container">
-    <!-- Header -->
     <div class="header">
       <div class="logo-container">
         <div class="logo">
@@ -16,43 +18,73 @@
         </div>
         <div class="brand">
           <h1>YScroll</h1>
-          <p>Get your work Done</p>
+          <p>Settings</p>
+        </div>
+      </div>
+      <button class="back-btn" id="backBtn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+      </button>
+    </div>
+    <div class="settings">
+
+      <!-- Daily Limit -->
+      <div class="setting-box">
+        <p class="label">Daily Limit</p>
+        <div class="value">
+          <span id="dailyValue">120</span>
+          <span class="unit">minutes</span>
+        </div>
+        <div class="buttons">
+          <button onclick="adjust('daily', -5)">−</button>
+          <div class="divider"></div>
+          <button onclick="adjust('daily', 5)">+</button>
+        </div>
+      </div>
+
+      <!-- Session Limit -->
+      <div class="setting-box">
+        <p class="label">Session Limit</p>
+        <div class="value">
+          <span id="sessionValue">25</span>
+          <span class="unit">minutes</span>
+        </div>
+        <div class="buttons">
+          <button onclick="adjust('session', -5)">−</button>
+          <div class="divider"></div>
+          <button onclick="adjust('session', 5)">+</button>
+        </div>
+      </div>
+
+      <!-- Cool Down -->
+      <div class="setting-box">
+        <p class="label">Cool Down</p>
+        <div class="value">
+          <span id="coolValue">5</span>
+          <span class="unit">minutes</span>
+        </div>
+        <div class="buttons">
+          <button onclick="adjust('cool', -1)">−</button>
+          <div class="divider"></div>
+          <button onclick="adjust('cool', 1)">+</button>
         </div>
       </div>
     </div>
 
-    <!-- Daily Limit Section -->
-    <div class="section">
-      <h2 class="section-title">Daily Limit</h2>
-      <div class="limit-display">
-        <span class="limit-value" id="dailyLimitDisplay">30</span>
-        <span class="limit-unit">Minutes</span>
-      </div>
-      <div class="controls">
-        <button class="control-btn" id="dailyDecrement">−</button>
-        <span class="control-value" id="dailyValue">30</span>
-        <button class="control-btn" id="dailyIncrement">+</button>
-      </div>
-    </div>
+    <p class="info">
+      Your settings help maintain focus and prevent burnout.  
+      Adjust limits based on your productivity rhythm.
+    </p>
 
-    <!-- Session Limit Section -->
-    <div class="section">
-      <h2 class="section-title">Session Limit<span class="optional">(Optional)</span></h2>
-      <div class="limit-display">
-        <span class="limit-value" id="sessionLimitDisplay">5</span>
-        <span class="limit-unit">Minutes</span>
-      </div>
-      <div class="controls">
-        <button class="control-btn" id="sessionDecrement">−</button>
-        <span class="control-value" id="sessionValue">5</span>
-        <button class="control-btn" id="sessionIncrement">+</button>
-      </div>
-    </div>
-
-    <!-- Finish Button -->
-    <button class="finish-btn" id="finishBtn">Finish</button>
+    <button class="save-btn" onclick="saveSettings()">
+      <i data-lucide="check"></i> Save Changes
+    </button>
   </div>
 
   <script src="settings.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
 </body>
 </html>
