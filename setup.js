@@ -3,48 +3,21 @@ let dailyLimit = 30;
 let sessionLimit = 5;
 let coolDown = 5;
 
-// Update daily limit display
-function updateDailyDisplay() {
-  document.getElementById('dailyLimitDisplay').textContent = dailyLimit;
+// Update all displays
+function updateDisplay() {
   document.getElementById('dailyValue').textContent = dailyLimit;
-}
-
-// Update session limit display
-function updateSessionDisplay() {
-  document.getElementById('sessionLimitDisplay').textContent = sessionLimit;
   document.getElementById('sessionValue').textContent = sessionLimit;
+  document.getElementById('coolValue').textContent = coolDown;
 }
-
-// Daily limit controls
-document.getElementById('dailyIncrement').addEventListener('click', () => {
-  dailyLimit = Math.min(dailyLimit + 5, 180); // Max 3 hours
-  updateDailyDisplay();
-});
-
-document.getElementById('dailyDecrement').addEventListener('click', () => {
-  dailyLimit = Math.max(dailyLimit - 5, 5); // Min 5 minutes
-  updateDailyDisplay();
-});
-
-// Session limit controls
-document.getElementById('sessionIncrement').addEventListener('click', () => {
-  sessionLimit = Math.min(sessionLimit + 1, 60); // Max 1 hour
-  updateSessionDisplay();
-});
-
-document.getElementById('sessionDecrement').addEventListener('click', () => {
-  sessionLimit = Math.max(sessionLimit - 1, 1); // Min 1 minute
-  updateSessionDisplay();
-});
 
 // Save settings and mark setup as complete
-document.getElementById('finishBtn').addEventListener('click', async () => {
+async function finishSetup() {
   await chrome.storage.local.set({
     dailyLimit,
     sessionLimit,
     coolDown,
     isActive: true,
-    setupComplete: true, // Mark that setup has been completed
+    setupComplete: true,
     platforms: {
       youtube: true,
       tiktok: true,
@@ -59,16 +32,50 @@ document.getElementById('finishBtn').addEventListener('click', async () => {
   });
   
   // Show confirmation
-  const btn = document.getElementById('finishBtn');
-  btn.textContent = 'Setup Complete!';
-  btn.style.background = '#10b981';
+  const btn = document.querySelector('.finish-btn');
+  const originalHTML = btn.innerHTML;
   
-  // Close the tab after a short delay
+  btn.classList.add('saved');
+  btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Setup Complete!';
+  
+  // Close after a short delay
   setTimeout(() => {
     window.close();
   }, 1000);
+}
+
+// Event listeners for buttons
+document.getElementById('dailyDecrement').addEventListener('click', () => {
+  dailyLimit = Math.max(5, dailyLimit - 5);
+  updateDisplay();
 });
 
+document.getElementById('dailyIncrement').addEventListener('click', () => {
+  dailyLimit = Math.min(180, dailyLimit + 5);
+  updateDisplay();
+});
+
+document.getElementById('sessionDecrement').addEventListener('click', () => {
+  sessionLimit = Math.max(1, sessionLimit - 1);
+  updateDisplay();
+});
+
+document.getElementById('sessionIncrement').addEventListener('click', () => {
+  sessionLimit = Math.min(60, sessionLimit + 1);
+  updateDisplay();
+});
+
+document.getElementById('coolDecrement').addEventListener('click', () => {
+  coolDown = Math.max(1, coolDown - 1);
+  updateDisplay();
+});
+
+document.getElementById('coolIncrement').addEventListener('click', () => {
+  coolDown = Math.min(30, coolDown + 1);
+  updateDisplay();
+});
+
+document.getElementById('finishBtn').addEventListener('click', finishSetup);
+
 // Initialize displays
-updateDailyDisplay();
-updateSessionDisplay();
+updateDisplay();

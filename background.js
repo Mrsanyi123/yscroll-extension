@@ -16,6 +16,7 @@ chrome.runtime.onInstalled.addListener((details) => {
       chrome.storage.local.set({
         dailyLimit: 30,
         sessionLimit: 5,
+        coolDown: 5,
         isActive: true,
         platforms: {
           youtube: true,
@@ -80,8 +81,9 @@ async function handleTimeTracking(tabId, platform, url) {
     };
   }
   
-  // Add elapsed time
-  usage.today += elapsed;
+  // Add elapsed time, but don't exceed daily limit
+  const dailyLimit = (await chrome.storage.local.get(['dailyLimit'])).dailyLimit || 30;
+  usage.today = Math.min(usage.today + elapsed, dailyLimit);
   
   // Save updated usage
   await chrome.storage.local.set({ usage });

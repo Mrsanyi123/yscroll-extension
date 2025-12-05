@@ -1,13 +1,14 @@
 // Settings page logic
+let dailyLimit = 30;
 let sessionLimit = 5;
 let coolDown = 5;
 
 // Load saved settings
 async function loadSettings() {
   chrome.storage.local.get(['dailyLimit', 'sessionLimit', 'coolDown'], (data) => {
-    dailyLimit = data.dailyLimit || 60;
+    dailyLimit = data.dailyLimit || 30;
     sessionLimit = data.sessionLimit || 5;
-    coolDown = data.coolDown || 30;
+    coolDown = data.coolDown || 5;
     
     updateDisplay();
   });
@@ -20,18 +21,6 @@ function updateDisplay() {
   document.getElementById('coolValue').textContent = coolDown;
 }
 
-// Adjust function for all settings
-function adjust(type, amount) {
-  if (type === 'daily') {
-    dailyLimit = Math.max(5, Math.min(180, dailyLimit + amount));
-  } else if (type === 'session') {
-    sessionLimit = Math.max(1, Math.min(60, sessionLimit + amount));
-  } else if (type === 'cool') {
-    coolDown = Math.max(1, Math.min(30, coolDown + amount));
-  }
-  updateDisplay();
-}
-
 // Save settings
 async function saveSettings() {
   await chrome.storage.local.set({
@@ -42,19 +31,49 @@ async function saveSettings() {
   
   // Show confirmation
   const btn = document.querySelector('.save-btn');
-  const icon = btn.querySelector('i');
   const originalHTML = btn.innerHTML;
   
   btn.classList.add('saved');
-  btn.innerHTML = '<i data-lucide="check-circle"></i> Saved!';
-  lucide.createIcons();
+  btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Saved!';
   
   setTimeout(() => {
     btn.classList.remove('saved');
     btn.innerHTML = originalHTML;
-    lucide.createIcons();
   }, 2000);
 }
+
+// Event listeners for buttons
+document.getElementById('dailyDecrement').addEventListener('click', () => {
+  dailyLimit = Math.max(5, dailyLimit - 5);
+  updateDisplay();
+});
+
+document.getElementById('dailyIncrement').addEventListener('click', () => {
+  dailyLimit = Math.min(180, dailyLimit + 5);
+  updateDisplay();
+});
+
+document.getElementById('sessionDecrement').addEventListener('click', () => {
+  sessionLimit = Math.max(1, sessionLimit - 1);
+  updateDisplay();
+});
+
+document.getElementById('sessionIncrement').addEventListener('click', () => {
+  sessionLimit = Math.min(60, sessionLimit + 1);
+  updateDisplay();
+});
+
+document.getElementById('coolDecrement').addEventListener('click', () => {
+  coolDown = Math.max(1, coolDown - 1);
+  updateDisplay();
+});
+
+document.getElementById('coolIncrement').addEventListener('click', () => {
+  coolDown = Math.min(30, coolDown + 1);
+  updateDisplay();
+});
+
+document.getElementById('saveBtn').addEventListener('click', saveSettings);
 
 // Back button - navigate back to popup
 document.getElementById('backBtn').addEventListener('click', () => {

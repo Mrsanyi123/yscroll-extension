@@ -5,16 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>YScroll</title>
   <link rel="stylesheet" href="settings.css" />
-
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
 <body>
   <div class="container">
     <div class="header">
       <div class="logo-container">
         <div class="logo">
-          <span class="logo-text">Y</span>
+          <img src="icons/logo.png">
         </div>
         <div class="brand">
           <h1>YScroll</h1>
@@ -37,9 +34,9 @@
           <span class="unit">minutes</span>
         </div>
         <div class="buttons">
-          <button onclick="adjust('daily', -5)">−</button>
+          <button id="dailyDecrement">−</button>
           <div class="divider"></div>
-          <button onclick="adjust('daily', 5)">+</button>
+          <button id="dailyIncrement">+</button>
         </div>
       </div>
 
@@ -51,9 +48,9 @@
           <span class="unit">minutes</span>
         </div>
         <div class="buttons">
-          <button onclick="adjust('session', -5)">−</button>
+          <button id="sessionDecrement">−</button>
           <div class="divider"></div>
-          <button onclick="adjust('session', 5)">+</button>
+          <button id="sessionIncrement">+</button>
         </div>
       </div>
 
@@ -65,9 +62,9 @@
           <span class="unit">minutes</span>
         </div>
         <div class="buttons">
-          <button onclick="adjust('cool', -1)">−</button>
+          <button id="coolDecrement">−</button>
           <div class="divider"></div>
-          <button onclick="adjust('cool', 1)">+</button>
+          <button id="coolIncrement">+</button>
         </div>
       </div>
     </div>
@@ -77,14 +74,14 @@
       Adjust limits based on your productivity rhythm.
     </p>
 
-    <button class="save-btn" onclick="saveSettings()">
-      <i data-lucide="check"></i> Save Changes
+    <button class="save-btn" id="saveBtn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+      Save Changes
     </button>
   </div>
 
   <script src="settings.js"></script>
-  <script>
-    lucide.createIcons();
-  </script>
 </body>
 </html>

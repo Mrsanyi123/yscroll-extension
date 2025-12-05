@@ -5,29 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>YScroll</title>
   <link rel="stylesheet" href="popup.css">
-</head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+ </head>
 <body>
   <div class="container">
     <!-- Header -->
     <div class="header">
       <div class="logo-container">
         <div class="logo">
-          <span class="logo-text">Y</span>
+          <img src="icons/logo.png">
         </div>
         <div class="brand">
           <h1>YScroll</h1>
           <p>Get your work Done</p>
+
+          
         </div>
       </div>
       <button class="settings-btn" id="settingsBtn">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="3"></circle>
-          <path d="M12 1v6m0 6v6m0-18a9 9 0 1 0 0 18 9 9 0 0 0 0-18z"></path>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-        </svg>
-      </button>
+      <img src="icons/icons8-settings.gif" alt="">
+    </button>
     </div>
-
     <!-- Progress Circle -->
     <div class="progress-section">
       <div class="progress-container">
@@ -52,7 +50,7 @@
       
       <div class="platform-item">
         <div class="platform-info">
-          <div class="platform-icon youtube">▶</div>
+          <div class="platform-icon youtube"><img src="icons/shorts.png"></div>
           <span class="platform-name">YouTube Shorts</span>
         </div>
         <label class="toggle">
@@ -63,7 +61,7 @@
 
       <div class="platform-item">
         <div class="platform-info">
-          <div class="platform-icon tiktok">♪</div>
+          <div class="platform-icon tiktok"><img src="icons/tiktok.png"></div>
           <span class="platform-name">Tiktok</span>
         </div>
         <label class="toggle">
@@ -85,7 +83,7 @@
 
       <div class="platform-item">
         <div class="platform-info">
-          <div class="platform-icon instagram">📷</div>
+          <div class="platform-icon instagram"><img src="icons/instagram.png"></div>
           <span class="platform-name">Instagram</span>
         </div>
         <label class="toggle">
@@ -103,6 +101,14 @@
       </div>
     </div>
   </div>
+ <div class="floating-donate">
+  <a href="https://www.buymeacoffee.com/sanyidiriba" target="_blank">
+    <img src="https://img.buymeacoffee.com/button-api/?text=Buy Me Coffe&emoji=☕&slug=sanyidiriba&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" />
+  </a>
+</div>
+
+
+   <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="sanyidiriba" data-description="Support me on Buy me a coffee!" data-message="Support YScroll" data-color="#5F7FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
 
   <script src="popup.js"></script>
 </body>

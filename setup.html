@@ -1,56 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>YScroll Setup</title>
-  <link rel="stylesheet" href="setup.css">
+  <link rel="stylesheet" href="setup.css" />
 </head>
 <body>
   <div class="container">
-    <!-- Header -->
     <div class="header">
       <div class="logo-container">
         <div class="logo">
-          <span class="logo-text">Y</span>
+          <img src="icons/logo.png">
         </div>
         <div class="brand">
           <h1>YScroll</h1>
-          <p>Get your work Done</p>
+          <p>Welcome! Let's set up</p>
         </div>
       </div>
     </div>
 
-    <!-- Daily Limit Section -->
-    <div class="section">
-      <h2 class="section-title">Daily Limit</h2>
-      <div class="limit-display">
-        <span class="limit-value" id="dailyLimitDisplay">30</span>
-        <span class="limit-unit">Minutes</span>
+    <div class="settings">
+      <!-- Daily Limit -->
+      <div class="setting-box">
+        <p class="label">Daily Limit</p>
+        <div class="value">
+          <span id="dailyValue">30</span>
+          <span class="unit">minutes</span>
+        </div>
+        <div class="buttons">
+          <button id="dailyDecrement">−</button>
+          <div class="divider"></div>
+          <button id="dailyIncrement">+</button>
+        </div>
       </div>
-      <div class="controls">
-        <button class="control-btn" id="dailyDecrement">−</button>
-        <span class="control-value" id="dailyValue">30</span>
-        <button class="control-btn" id="dailyIncrement">+</button>
+
+      <!-- Session Limit -->
+      <div class="setting-box">
+        <p class="label">Session Limit</p>
+        <div class="value">
+          <span id="sessionValue">5</span>
+          <span class="unit">minutes</span>
+        </div>
+        <div class="buttons">
+          <button id="sessionDecrement">−</button>
+          <div class="divider"></div>
+          <button id="sessionIncrement">+</button>
+        </div>
+      </div>
+
+      <!-- Cool Down -->
+      <div class="setting-box">
+        <p class="label">Cool Down</p>
+        <div class="value">
+          <span id="coolValue">5</span>
+          <span class="unit">minutes</span>
+        </div>
+        <div class="buttons">
+          <button id="coolDecrement">−</button>
+          <div class="divider"></div>
+          <button id="coolIncrement">+</button>
+        </div>
       </div>
     </div>
 
-    <!-- Session Limit Section -->
-    <div class="section">
-      <h2 class="section-title">Session Limit<span class="optional">(Optional)</span></h2>
-      <div class="limit-display">
-        <span class="limit-value" id="sessionLimitDisplay">5</span>
-        <span class="limit-unit">Minutes</span>
-      </div>
-      <div class="controls">
-        <button class="control-btn" id="sessionDecrement">−</button>
-        <span class="control-value" id="sessionValue">5</span>
-        <button class="control-btn" id="sessionIncrement">+</button>
-      </div>
-    </div>
+    <p class="info">
+      Set your limits to maintain focus and prevent burnout.
+      You can always change these later in settings.
+    </p>
 
-    <!-- Finish Button -->
-    <button class="finish-btn" id="finishBtn">Finish</button>
+    <button class="finish-btn" id="finishBtn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+      Get Started
+    </button>
   </div>
 
   <script src="setup.js"></script>

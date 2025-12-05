@@ -4,6 +4,7 @@
   
   let sessionStart = null;
   let isBlocked = false;
+  let cooldownEnd = null;
   
   // Check if we're on YouTube Shorts
   function isShortsPage() {
@@ -20,8 +21,8 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.95);
-      z-index: 999999;
+      background: #000000;
+      z-index: 2147483647;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -41,12 +42,19 @@
       </div>
     `;
     
+    // Prevent all interactions
+    overlay.addEventListener('keydown', (e) => e.stopPropagation(), true);
+    overlay.addEventListener('keyup', (e) => e.stopPropagation(), true);
+    overlay.addEventListener('keypress', (e) => e.stopPropagation(), true);
+    overlay.addEventListener('wheel', (e) => { e.preventDefault(); e.stopPropagation(); }, { passive: false, capture: true });
+    overlay.addEventListener('scroll', (e) => { e.preventDefault(); e.stopPropagation(); }, { passive: false, capture: true });
+    
     return overlay;
   }
   
   // Check limits and block if necessary
   async function checkAndBlock() {
-    const data = await chrome.storage.local.get(['isActive', 'platforms', 'dailyLimit', 'sessionLimit', 'usage']);
+    const data = await chrome.storage.local.get(['isActive', 'platforms', 'dailyLimit', 'sessionLimit', 'coolDown', 'usage']);
     
     // Check if extension is active
     if (data.isActive === false) {
@@ -64,18 +72,14 @@
     if (!isShortsPage()) {
       removeBlockOverlay();
       sessionStart = null;
+      cooldownEnd = null;
       return;
-    }
-    
-    // Start session timer if not started
-    if (!sessionStart) {
-      sessionStart = Date.now();
     }
     
     const usage = data.usage || { today: 0 };
     const dailyLimit = data.dailyLimit || 30;
     const sessionLimit = data.sessionLimit || 5;
-    const sessionTime = (Date.now() - sessionStart) / 1000 / 60; // minutes
+    const coolDown = data.coolDown || 5;
     
     // Check daily limit
     if (usage.today >= dailyLimit) {
@@ -83,9 +87,32 @@
       return;
     }
     
+    // Check if in cooldown period
+    if (cooldownEnd && Date.now() < cooldownEnd) {
+      const remainingMinutes = Math.ceil((cooldownEnd - Date.now()) / 1000 / 60);
+      showBlockOverlay(`Session limit reached. Cool down for ${remainingMinutes} more minute${remainingMinutes !== 1 ? 's' : ''}.`);
+      return;
+    } else if (cooldownEnd && Date.now() >= cooldownEnd) {
+      // Cooldown ended, reset session
+      cooldownEnd = null;
+      sessionStart = null;
+    }
+    
+    // Start session timer if not started
+    if (!sessionStart) {
+      sessionStart = Date.now();
+    }
+    
+    const sessionTime = (Date.now() - sessionStart) / 1000 / 60; // minutes
+    
     // Check session limit
     if (sessionTime >= sessionLimit) {
-      showBlockOverlay(`You've reached your session limit of ${sessionLimit} minutes.`);
+      // Start cooldown period
+      if (!cooldownEnd) {
+        cooldownEnd = Date.now() + (coolDown * 60 * 1000);
+      }
+      const remainingMinutes = Math.ceil((cooldownEnd - Date.now()) / 1000 / 60);
+      showBlockOverlay(`Session limit reached. Cool down for ${remainingMinutes} minute${remainingMinutes !== 1 ? 's' : ''}.`);
       return;
     }
     
@@ -96,9 +123,21 @@
   // Show block overlay
   function showBlockOverlay(message) {
     if (isBlocked) return;
-    
+
     const existing = document.getElementById('yscroll-block-overlay');
     if (existing) existing.remove();
+    
+    // Pause all videos
+    const videos = document.querySelectorAll('video');
+    videos.forEach(video => {
+      video.pause();
+      video.muted = true;
+      video.currentTime = 0;
+    });
+    
+    // Disable body scroll
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
     
     const overlay = createBlockOverlay(message);
     document.body.appendChild(overlay);
@@ -117,6 +156,10 @@
     if (overlay) {
       overlay.remove();
       isBlocked = false;
+      
+      // Re-enable scrolling
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     }
   }
   

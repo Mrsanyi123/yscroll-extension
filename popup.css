@@ -6,7 +6,7 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  background: linear-gradient(180deg, #4a5568 0%, #2d3748 100%);
+  background: linear-gradient(180deg, #21262C 0%, #21262C 100%);
   color: #ffffff;
   width: 375px;
   min-height: 600px;
@@ -46,10 +46,11 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.logo-text {
-  font-size: 28px;
-  font-weight: bold;
-  color: #3b82f6;
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 5px;
 }
 
 .brand h1 {
@@ -86,6 +87,7 @@ body {
   width: 20px;
   height: 20px;
 }
+
 
 /* Progress Section */
 .progress-section {
@@ -130,7 +132,7 @@ body {
 }
 
 .time-display {
-  font-size: 48px;
+  font-size: 43px;
   font-weight: bold;
   line-height: 1;
   margin-bottom: 8px;
@@ -193,10 +195,7 @@ body {
   font-weight: bold;
 }
 
-.platform-icon.youtube {
-  background: #ff0000;
-  color: white;
-}
+
 
 .platform-icon.tiktok {
   background: #000000;
@@ -209,7 +208,6 @@ body {
 }
 
 .platform-icon.instagram {
-  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
   color: white;
 }
 
@@ -262,6 +260,21 @@ body {
 
 .toggle input:checked + .toggle-slider:before {
   transform: translateX(22px);
+}
+
+.floating-donate {
+  position: fixed;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  padding: 8px 10px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+}
+
+.floating-donate img {
+  width: 170px;
 }
 
 /* Master Toggle */
