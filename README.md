@@ -1,4 +1,4 @@
-# YScroll - Get Your Work Done
+# YScroll: Stop the Endless Scroll & Get Your Work Done
 
 A Chrome extension that helps you limit time spent on short-form content platforms like youtubeshorts Shorts, TikTok, LinkedIn Feed, and Instagram.
 
@@ -19,23 +19,9 @@ A Chrome extension that helps you limit time spent on short-form content platfor
 - **Instagram** - Blocks Reels and the main feed
 
 ## Installation
-
-### From Source
-
-1. Clone or download this repository
-2. Open Chrome and navigate to `chrome://extensions/`
-3. Enable "Developer mode" in the top right
-4. Click "Load unpacked"
-5. Select the YScroll folder
-
-### Creating Icons
-
-Before loading the extension, you need to create icon files. Place PNG icons in the `icons/` folder:
-- `icon16.png` (16x16 pixels)
-- `icon48.png` (48x48 pixels)
-- `icon128.png` (128x128 pixels)
-
-You can use any image editor to create these. The icon should feature the "Y" logo with a blue color scheme.
+1. Go to Web Store and search for **yscroll** or 
+2. Use this link: https://chromewebstore.google.com/detail/yscroll-stop-the-endless/hlnhamlgmoijbfhilkanhifompndjaho
+3. Everything is east to setup
 
 ## Usage
 
@@ -46,6 +32,7 @@ You can use any image editor to create these. The icon should feature the "Y" lo
 3. Set your desired daily limit (default: 30 minutes)
 4. Set your session limit (default: 5 minutes, optional)
 5. Click "Finish" to save
+6. Pin it so it's easy to access it again
 
 ### Dashboard
 
@@ -115,7 +102,7 @@ YScroll/
 
 ### Extension Not Working
 
-1. Make sure the extension is enabled in `chrome://extensions/`
+1. Make sure the extension is enabled in the dashboard 
 2. Check that the platform toggle is enabled
 3. Verify the master toggle is ON
 4. Try reloading the page
@@ -146,3 +133,5 @@ For issues or feature requests, please open an issue on GitHub.
 ---
 
 **Get your work done!** 💪
+
+By **Sanyi Diriba** 
