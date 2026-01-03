@@ -3,8 +3,6 @@
 A Chrome extension that helps you limit time spent on short-form content platforms like youtubeshorts Shorts, TikTok, LinkedIn Feed, and Instagram.
 
 <img width="1200" height="628" alt="1" src="https://github.com/user-attachments/assets/1534e0b9-a65e-4466-9d64-28c5990e7227" />
-<img width="1200" height="628" alt="2" src="https://github.com/user-attachments/assets/4565657a-7a5b-4baa-8322-54bf3a81b84a" />
-<img width="1200" height="628" alt="3" src="https://github.com/user-attachments/assets/642d8cfc-49cb-46b4-83eb-2b56c01d53c8" />
 
 ## Features
 
@@ -15,6 +13,8 @@ A Chrome extension that helps you limit time spent on short-form content platfor
 - 🚫 **Smart Blocking**: Automatically blocks content when limits are reached
 - 💾 **Persistent Storage**: Your settings and usage data are saved locally
 
+<img width="1200" height="628" alt="2" src="https://github.com/user-attachments/assets/4565657a-7a5b-4baa-8322-54bf3a81b84a" />
+
 ## Supported Platforms
 
 - **youtubeshorts Shorts** - Blocks `/shorts/` pages
@@ -22,10 +22,12 @@ A Chrome extension that helps you limit time spent on short-form content platfor
 - **LinkedIn Feed** - Blocks the main feed page
 - **Instagram** - Blocks Reels and the main feed
 
+<img width="1200" height="628" alt="3" src="https://github.com/user-attachments/assets/642d8cfc-49cb-46b4-83eb-2b56c01d53c8" />
+
 ## Installation
 1. Go to Web Store and search for **yscroll** or 
 2. Use this link: https://chromewebstore.google.com/detail/yscroll-stop-the-endless/hlnhamlgmoijbfhilkanhifompndjaho
-3. Everything is east to setup
+3. Everything is easy to setup
 
 ## Usage
 
