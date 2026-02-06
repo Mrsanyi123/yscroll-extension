@@ -21,11 +21,13 @@ A Chrome extension that helps you limit time spent on short-form content platfor
 - **TikTok** - Blocks the entire site
 - **LinkedIn Feed** - Blocks the main feed page
 - **Instagram** - Blocks Reels and the main feed
+- **X/Twitter (Home timeline)** - Blocks the home timeline
 
 <img width="1200" height="628" alt="3" src="https://github.com/user-attachments/assets/642d8cfc-49cb-46b4-83eb-2b56c01d53c8" />
 
 ## Installation
-1. Go to Web Store and search for **yscroll** or 
+
+1. Go to Web Store and search for **yscroll** or
 2. Use this link: https://chromewebstore.google.com/detail/yscroll-stop-the-endless/hlnhamlgmoijbfhilkanhifompndjaho
 3. Everything is easy to setup
 
@@ -43,6 +45,7 @@ A Chrome extension that helps you limit time spent on short-form content platfor
 ### Dashboard
 
 The popup dashboard shows:
+
 - **Circular Progress**: Visual representation of time used vs. limit
 - **Time Display**: Minutes watched today / daily limit
 - **Platform Toggles**: Enable/disable individual platforms
@@ -108,7 +111,7 @@ YScroll/
 
 ### Extension Not Working
 
-1. Make sure the extension is enabled in the dashboard 
+1. Make sure the extension is enabled in the dashboard
 2. Check that the platform toggle is enabled
 3. Verify the master toggle is ON
 4. Try reloading the page
@@ -140,4 +143,4 @@ For issues or feature requests, please open an issue on GitHub.
 
 **Get your work done!** 💪
 
-By **Sanyi Diriba** 
+By **Sanyi Diriba**
