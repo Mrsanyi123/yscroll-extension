@@ -8,7 +8,11 @@
     "*://*.youtube.com/*",
     "*://*.tiktok.com/*",
     "*://*.linkedin.com/*",
-    "*://*.instagram.com/*"
+    "*://*.instagram.com/*",
+    "*://x.com/*",
+    "*://*.x.com/*",
+    "*://twitter.com/*",
+    "*://*.twitter.com/*"
   ],
   "action": {
     "default_popup": "popup.html",
@@ -46,6 +50,16 @@
       "matches": ["*://*.instagram.com/*"],
       "js": ["contentScripts/instagram.js"],
       "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "*://x.com/*",
+        "*://*.x.com/*",
+        "*://twitter.com/*",
+        "*://*.twitter.com/*"
+      ],
+      "js": ["contentScripts/twitter.js"],
+      "run_at": "document_end"
     }
   ],
   "web_accessible_resources": [
@@ -55,7 +69,11 @@
         "*://*.youtube.com/*",
         "*://*.tiktok.com/*",
         "*://*.linkedin.com/*",
-        "*://*.instagram.com/*"
+        "*://*.instagram.com/*",
+        "*://x.com/*",
+        "*://*.x.com/*",
+        "*://twitter.com/*",
+        "*://*.twitter.com/*"
       ]
     }
   ]

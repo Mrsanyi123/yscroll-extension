@@ -5,8 +5,9 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+    Cantarell, sans-serif;
   background: linear-gradient(180deg, #21262c 0%, #21262c 100%);
   color: #ffffff;
   width: 375px;
@@ -208,6 +209,11 @@ body {
 
 .platform-icon.instagram {
   color: white;
+}
+
+.platform-icon.twitter {
+  background: #000000;
+  color: #ffffff;
 }
 
 .platform-name {

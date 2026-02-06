@@ -25,6 +25,7 @@ chrome.runtime.onInstalled.addListener(async (details) => {
         tiktok: true,
         linkedin: true,
         instagram: true,
+        twitter: true,
       },
       usage: {
         today: 0,
@@ -45,6 +46,7 @@ chrome.runtime.onInstalled.addListener(async (details) => {
         tiktok: true,
         linkedin: true,
         instagram: true,
+        twitter: true,
       },
       usage: {
         today: 0,
@@ -284,7 +286,9 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
       changeInfo.url.includes("youtube.com/watch") ||
       changeInfo.url.includes("tiktok.com") ||
       changeInfo.url.includes("linkedin.com/feed") ||
-      changeInfo.url.includes("instagram.com");
+      changeInfo.url.includes("instagram.com") ||
+      changeInfo.url.includes("x.com") ||
+      changeInfo.url.includes("twitter.com");
 
     if (!isTrackedUrl) {
       if (activeTabs.has(tabId)) {
