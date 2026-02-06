@@ -21,7 +21,7 @@ A Chrome extension that helps you limit time spent on short-form content platfor
 - **TikTok** - Blocks the entire site
 - **LinkedIn Feed** - Blocks the main feed page
 - **Instagram** - Blocks Reels and the main feed
-- **X/Twitter (Home timeline)** - Blocks the home timeline
+- **X/Twitter** - Blocks Home timeline, Explore, and Communities pages
 
 <img width="1200" height="628" alt="3" src="https://github.com/user-attachments/assets/642d8cfc-49cb-46b4-83eb-2b56c01d53c8" />
 

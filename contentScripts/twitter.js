@@ -13,8 +13,12 @@
   const PLATFORM = "twitter";
 
   function isHomeTimeline() {
+    const path = window.location.pathname;
     return (
-      window.location.pathname === "/home" || window.location.pathname === "/"
+      path === "/home" ||
+      path === "/" ||
+      path.startsWith("/explore") ||
+      path.startsWith("/i/communities")
     );
   }
 
