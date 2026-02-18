@@ -12,6 +12,10 @@
     let lastActiveTimestamp = null;
     const PLATFORM = "x";
 
+    function isContextValid() {
+        return typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.id;
+    }
+
     function isHomeFeed() {
         const path = window.location.pathname;
         return (
@@ -84,6 +88,7 @@
     }
 
     async function loadSessionState() {
+        if (!isContextValid()) return;
         const data = await chrome.storage.local.get(["sessionState"]);
         const sessionState = data.sessionState || {};
         const platformState = sessionState[PLATFORM] || {};
@@ -97,6 +102,7 @@
     }
 
     async function saveSessionState() {
+        if (!isContextValid()) return;
         const data = await chrome.storage.local.get(["sessionState"]);
         const sessionState = data.sessionState || {};
         sessionState[PLATFORM] = {
@@ -110,6 +116,7 @@
      * Checks limits and blocks content if necessary
      */
     async function checkAndBlock() {
+        if (!isContextValid()) return;
         await loadSessionState();
 
         const data = await chrome.storage.local.get([
@@ -334,12 +341,16 @@
             await saveSessionState();
         }
 
+        const playing = isVideoPlaying();
+        console.log(`[YScroll Debug] X, Track: ${shouldTrack}, Video: ${playing}`);
+
+        if (!isContextValid()) return;
         chrome.runtime.sendMessage({
             type: "TRACK_TIME",
             platform: "x",
             url: window.location.href,
             isActive: document.visibilityState === "visible",
-            videoPlaying: isVideoPlaying(),
+            videoPlaying: playing,
         });
     }
 
@@ -355,12 +366,6 @@
     }
     trackingIntervalId = setInterval(trackTime, 1000);
 
-    window.addEventListener("beforeunload", () => {
-        if (trackingIntervalId) {
-            clearInterval(trackingIntervalId);
-            trackingIntervalId = null;
-        }
-    });
 
     // Monitor URL changes
     let lastUrl = location.href;

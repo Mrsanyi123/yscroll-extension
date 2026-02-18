@@ -12,6 +12,10 @@
   let lastActiveTimestamp = null;
   const PLATFORM = "tiktok";
 
+  function isContextValid() {
+    return typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.id;
+  }
+
   /**
    * Creates a blocking overlay with message and home button
    */
@@ -75,6 +79,7 @@
   }
 
   async function loadSessionState() {
+    if (!isContextValid()) return;
     const data = await chrome.storage.local.get(["sessionState"]);
     const sessionState = data.sessionState || {};
     const platformState = sessionState[PLATFORM] || {};
@@ -88,6 +93,7 @@
   }
 
   async function saveSessionState() {
+    if (!isContextValid()) return;
     const data = await chrome.storage.local.get(["sessionState"]);
     const sessionState = data.sessionState || {};
     sessionState[PLATFORM] = {
@@ -101,6 +107,7 @@
    * Checks limits and blocks content if necessary
    */
   async function checkAndBlock() {
+    if (!isContextValid()) return;
     await loadSessionState();
 
     const data = await chrome.storage.local.get([
@@ -139,8 +146,7 @@
         (cooldownEnd - Date.now()) / 1000 / 60
       );
       showBlockOverlay(
-        `Session limit reached. Cool down for ${remainingMinutes} more minute${
-          remainingMinutes !== 1 ? "s" : ""
+        `Session limit reached. Cool down for ${remainingMinutes} more minute${remainingMinutes !== 1 ? "s" : ""
         }.`
       );
       lastActiveTimestamp = null;
@@ -176,8 +182,7 @@
       );
       if (remainingMinutes > 0) {
         showBlockOverlay(
-          `Session limit reached. Cool down for ${remainingMinutes} minute${
-            remainingMinutes !== 1 ? "s" : ""
+          `Session limit reached. Cool down for ${remainingMinutes} minute${remainingMinutes !== 1 ? "s" : ""
           }.`
         );
       }
@@ -256,7 +261,14 @@
 
     for (const video of videos) {
       if (!video.paused && !video.ended && video.readyState > 2) {
-        return true;
+        const rect = video.getBoundingClientRect();
+        const isVisible = (
+          rect.top >= -rect.height &&
+          rect.left >= -rect.width &&
+          rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) + rect.height &&
+          rect.right <= (window.innerWidth || document.documentElement.clientWidth) + rect.width
+        );
+        if (isVisible) return true;
       }
     }
     return false;
@@ -307,12 +319,16 @@
       await saveSessionState();
     }
 
+    const playing = isVideoPlaying();
+    console.log(`[YScroll Debug] TikTok, Track: ${shouldTrack}, Video: ${playing}`);
+
+    if (!isContextValid()) return;
     chrome.runtime.sendMessage({
       type: "TRACK_TIME",
       platform: "tiktok",
       url: window.location.href,
       isActive: document.visibilityState === "visible",
-      videoPlaying: isVideoPlaying(),
+      videoPlaying: playing,
     });
   }
 
@@ -328,10 +344,4 @@
   }
   trackingIntervalId = setInterval(trackTime, 1000);
 
-  window.addEventListener("beforeunload", () => {
-    if (trackingIntervalId) {
-      clearInterval(trackingIntervalId);
-      trackingIntervalId = null;
-    }
-  });
 })();
