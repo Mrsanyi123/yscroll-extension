@@ -9,7 +9,9 @@ const Storage = {
       youtube: true,
       tiktok: true,
       linkedin: true,
-      instagram: true
+      instagram: true,
+      facebook: true,
+      x: true
     },
 
     usage: {
@@ -59,7 +61,7 @@ const Storage = {
   async updateUsage(minutes) {
     const settings = await this.getSettings();
     const today = new Date().toDateString();
-    
+
     // Reset if new day
     if (settings.usage.lastReset !== today) {
       settings.usage = {
@@ -68,7 +70,7 @@ const Storage = {
         sessions: []
       };
     }
-    
+
     settings.usage.today += minutes;
     await this.saveSettings(settings);
     return settings.usage;
@@ -78,7 +80,7 @@ const Storage = {
   async getUsage() {
     const settings = await this.getSettings();
     const today = new Date().toDateString();
-    
+
     // Reset if new day
     if (settings.usage.lastReset !== today) {
       settings.usage = {
@@ -88,7 +90,7 @@ const Storage = {
       };
       await this.saveSettings(settings);
     }
-    
+
     return settings.usage;
   },
 

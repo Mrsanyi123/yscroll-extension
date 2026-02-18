@@ -25,6 +25,8 @@ chrome.runtime.onInstalled.addListener(async (details) => {
         tiktok: true,
         linkedin: true,
         instagram: true,
+        facebook: true,
+        x: true,
       },
       usage: {
         today: 0,
@@ -45,6 +47,8 @@ chrome.runtime.onInstalled.addListener(async (details) => {
         tiktok: true,
         linkedin: true,
         instagram: true,
+        facebook: true,
+        x: true,
       },
       usage: {
         today: 0,
@@ -93,6 +97,35 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 });
 
+// Local usage cache to prevent race conditions
+let usageCache = {
+  today: 0,
+  lastReset: new Date().toDateString(),
+  sessions: [],
+};
+
+// Load usage from storage on startup
+chrome.storage.local.get(["usage"], (data) => {
+  if (data.usage) {
+    const today = new Date().toDateString();
+    if (data.usage.lastReset === today) {
+      usageCache = data.usage;
+    } else {
+      usageCache = {
+        today: 0,
+        lastReset: today,
+        sessions: [],
+      };
+      chrome.storage.local.set({ usage: usageCache });
+    }
+  }
+});
+
+// Periodic sync to storage (every 5 seconds)
+setInterval(() => {
+  chrome.storage.local.set({ usage: usageCache });
+}, 5000);
+
 /**
  * Track time spent on platforms using timestamp-based approach
  */
@@ -107,57 +140,43 @@ async function handleTimeTracking(
     return;
   }
 
-  const data = await chrome.storage.local.get([
-    "isActive",
-    "platforms",
-    "usage",
-  ]);
+  const settings = await chrome.storage.local.get(["isActive", "platforms", "dailyLimit"]);
+  if (!settings.isActive) return;
+  if (!settings.platforms || !settings.platforms[platform]) return;
 
-  if (!data.isActive) return;
-  if (!data.platforms || !data.platforms[platform]) return;
+  const dailyLimit = settings.dailyLimit || 30;
+  const now = Date.now();
+
+  // Reset check
+  const today = new Date().toDateString();
+  if (usageCache.lastReset !== today) {
+    usageCache = {
+      today: 0,
+      lastReset: today,
+      sessions: [],
+    };
+  }
 
   if (!isActive || (videoPlaying !== undefined && !videoPlaying)) {
     if (activeTabs.has(tabId)) {
       const tabData = activeTabs.get(tabId);
       if (tabData.isTracking) {
-        const elapsed = (Date.now() - tabData.lastUpdate) / 1000 / 60;
+        const elapsed = (now - tabData.lastUpdate) / 1000 / 60;
         if (elapsed > 0) {
-          let usage = data.usage || {
-            today: 0,
-            lastReset: new Date().toDateString(),
-            sessions: [],
-          };
-          const today = new Date().toDateString();
-          if (usage.lastReset !== today) {
-            usage = {
-              today: 0,
-              lastReset: today,
-              sessions: [],
-            };
-          }
-          const dailyLimit =
-            (await chrome.storage.local.get(["dailyLimit"])).dailyLimit || 30;
-          usage.today = Math.min(usage.today + elapsed, dailyLimit);
-          await chrome.storage.local.set({ usage });
+          usageCache.today = Math.min(usageCache.today + elapsed, dailyLimit);
           console.log(
             `[TIMER STOPPED] Tab ${tabId} - ${platform}: Final +${elapsed.toFixed(
               2
-            )}min (Total: ${usage.today.toFixed(2)}/${dailyLimit})`
+            )}min (Total: ${usageCache.today.toFixed(2)}/${dailyLimit})`
           );
         }
         tabData.isTracking = false;
-        console.log(
-          `[TIMER STOPPED] Tab ${tabId} - ${platform}: Conditions not met`
-        );
       }
-      tabData.lastUpdate = Date.now();
+      tabData.lastUpdate = now;
       activeTabs.set(tabId, tabData);
     }
     return;
   }
-
-  const now = Date.now();
-  let elapsed = 0;
 
   if (!activeTabs.has(tabId)) {
     activeTabs.set(tabId, {
@@ -171,36 +190,15 @@ async function handleTimeTracking(
   }
 
   const tabData = activeTabs.get(tabId);
-
   if (tabData.isTracking) {
-    elapsed = (now - tabData.lastUpdate) / 1000 / 60;
+    const elapsed = (now - tabData.lastUpdate) / 1000 / 60;
+    usageCache.today = Math.min(usageCache.today + elapsed, dailyLimit);
 
-    let usage = data.usage || {
-      today: 0,
-      lastReset: new Date().toDateString(),
-      sessions: [],
-    };
-
-    const today = new Date().toDateString();
-    if (usage.lastReset !== today) {
-      usage = {
-        today: 0,
-        lastReset: today,
-        sessions: [],
-      };
-    }
-
-    const dailyLimit =
-      (await chrome.storage.local.get(["dailyLimit"])).dailyLimit || 30;
-    usage.today = Math.min(usage.today + elapsed, dailyLimit);
-
-    await chrome.storage.local.set({ usage });
-
-    if (elapsed > 0) {
+    if (elapsed > 0.01) { // Log significant updates
       console.log(
         `[TIMER] Tab ${tabId} - ${platform}: +${elapsed.toFixed(
           2
-        )}min (Total: ${usage.today.toFixed(2)}/${dailyLimit})`
+        )}min (Total: ${usageCache.today.toFixed(2)}/${dailyLimit})`
       );
     }
   }
@@ -214,35 +212,18 @@ async function handleTimeTracking(
  * Handle session time tracking when limit is reached
  */
 async function handleSessionTimeTracking(tabId, platform, sessionTime) {
-  const data = await chrome.storage.local.get([
-    "isActive",
-    "platforms",
-    "usage",
-    "sessionLimit",
-  ]);
+  const settings = await chrome.storage.local.get(["isActive", "platforms", "dailyLimit"]);
+  if (!settings.isActive) return;
+  if (!settings.platforms || !settings.platforms[platform]) return;
 
-  if (!data.isActive) return;
-  if (!data.platforms || !data.platforms[platform]) return;
+  const dailyLimit = settings.dailyLimit || 30;
 
-  let usage = data.usage || {
-    today: 0,
-    lastReset: new Date().toDateString(),
-    sessions: [],
-  };
-
-  const today = new Date().toDateString();
-  if (usage.lastReset !== today) {
-    usage = {
-      today: 0,
-      lastReset: today,
-      sessions: [],
-    };
-  }
-
-  const dailyLimit =
-    (await chrome.storage.local.get(["dailyLimit"])).dailyLimit || 30;
+  // Sync session time to total usage
+  usageCache.today = Math.min(usageCache.today + sessionTime, dailyLimit);
+  await chrome.storage.local.set({ usage: usageCache });
 
   if (activeTabs.has(tabId)) {
+
     const tabData = activeTabs.get(tabId);
     const now = Date.now();
     const elapsedSinceLastUpdate = (now - tabData.lastUpdate) / 1000 / 60;
@@ -284,7 +265,9 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
       changeInfo.url.includes("youtube.com/watch") ||
       changeInfo.url.includes("tiktok.com") ||
       changeInfo.url.includes("linkedin.com/feed") ||
-      changeInfo.url.includes("instagram.com");
+      changeInfo.url.includes("instagram.com") ||
+      changeInfo.url.includes("facebook.com") ||
+      changeInfo.url.includes("x.com");
 
     if (!isTrackedUrl) {
       if (activeTabs.has(tabId)) {

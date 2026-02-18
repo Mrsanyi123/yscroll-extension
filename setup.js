@@ -30,6 +30,8 @@ async function finishSetup() {
       tiktok: true,
       linkedin: true,
       instagram: true,
+      facebook: true,
+      x: true,
     },
     usage: {
       today: 0,

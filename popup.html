@@ -1,122 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>YScroll</title>
-    <link rel="stylesheet" href="popup.css" />
-  </head>
-  <body>
-    <div class="container">
-      <!-- Header -->
-      <div class="header">
-        <div class="logo-container">
-          <div class="logo">
-            <img src="icons/logo.png" />
-          </div>
-          <div class="brand">
-            <h1>YScroll</h1>
-            <p>Get your work Done</p>
-          </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YScroll</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo-container">
+        <div class="logo">
+          <img src="icons/logo.png" />
         </div>
-        <button class="settings-btn" id="settingsBtn">
-          <img src="icons/settings.png" alt="" />
-        </button>
-      </div>
-      <!-- Progress Circle -->
-      <div class="progress-section">
-        <div class="progress-container">
-          <svg class="progress-ring" width="280" height="280">
-            <circle class="progress-ring-bg" cx="140" cy="140" r="120" />
-            <circle
-              class="progress-ring-fill"
-              cx="140"
-              cy="140"
-              r="120"
-              id="progressCircle"
-            />
-          </svg>
-          <div class="progress-text">
-            <div class="time-display">
-              <span class="time-used" id="timeUsed">0</span>
-              <span class="time-separator">/</span>
-              <span class="time-limit" id="timeLimit">30</span>
-            </div>
-            <div class="time-label">Minutes Watched</div>
-          </div>
+        <div class="brand">
+          <h1>YScroll</h1>
+          <p>Get your work Done</p>
         </div>
       </div>
-
-      <!-- Platforms Section -->
-      <div class="platforms-section">
-        <h2 class="platforms-title">Platforms</h2>
-
-        <div class="platform-item">
-          <div class="platform-info">
-            <div class="platform-icon youtube">
-              <img src="icons/shorts.png" />
-            </div>
-            <span class="platform-name">YouTube Shorts</span>
+      <button class="settings-btn" id="settingsBtn">
+        <img src="icons/settings.png" alt="" />
+      </button>
+    </div>
+    <!-- Progress Circle -->
+    <div class="progress-section">
+      <div class="progress-container">
+        <svg class="progress-ring" width="280" height="280">
+          <circle class="progress-ring-bg" cx="140" cy="140" r="120" />
+          <circle class="progress-ring-fill" cx="140" cy="140" r="120" id="progressCircle" />
+        </svg>
+        <div class="progress-text">
+          <div class="time-display">
+            <span class="time-used" id="timeUsed">0</span>
+            <span class="time-separator">/</span>
+            <span class="time-limit" id="timeLimit">30</span>
           </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggleYoutube" checked />
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div class="platform-item">
-          <div class="platform-info">
-            <div class="platform-icon tiktok">
-              <img src="icons/tiktok.png" />
-            </div>
-            <span class="platform-name">Tiktok</span>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggleTiktok" checked />
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div class="platform-item">
-          <div class="platform-info">
-            <div class="platform-icon linkedin">in</div>
-            <span class="platform-name">Linkedin Feed</span>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggleLinkedin" checked />
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div class="platform-item">
-          <div class="platform-info">
-            <div class="platform-icon instagram">
-              <img src="icons/instagram.png" />
-            </div>
-            <span class="platform-name">Instagram</span>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="toggleInstagram" checked />
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-      </div>
-
-      <!-- Master Toggle -->
-      <div class="master-toggle" id="masterToggle">
-        <div class="master-toggle-circle">
-          <span class="master-toggle-text">ON</span>
-          <span class="master-toggle-subtext">YScroll is Active</span>
+          <div class="time-label">Minutes Watched</div>
         </div>
       </div>
     </div>
-    <a
-      href="https://www.buymeacoffee.com/sanyidiriba"
-      target="_blank"
-      class="floating-donate"
-      ><img
-        src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=sanyidiriba&button_colour=5F7FFF&font_colour=ffffff&font_family=Comic&outline_colour=000000&coffee_colour=FFDD00"
-    /></a>
-    <script src="popup.js"></script>
-  </body>
+
+    <!-- Platforms Section -->
+    <div class="platforms-section">
+      <h2 class="platforms-title">Platforms</h2>
+
+      <div class="platform-item">
+        <div class="platform-info">
+          <div class="platform-icon youtube">
+            <img src="icons/shorts.png" />
+          </div>
+          <span class="platform-name">YouTube Shorts</span>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="toggleYoutube" checked />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="platform-item">
+        <div class="platform-info">
+          <div class="platform-icon tiktok">
+            <img src="icons/tiktok.png" />
+          </div>
+          <span class="platform-name">Tiktok</span>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="toggleTiktok" checked />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="platform-item">
+        <div class="platform-info">
+          <div class="platform-icon linkedin">in</div>
+          <span class="platform-name">Linkedin Feed</span>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="toggleLinkedin" checked />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="platform-item">
+        <div class="platform-info">
+          <div class="platform-icon instagram">
+            <img src="icons/instagram.png" />
+          </div>
+          <span class="platform-name">Instagram</span>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="toggleInstagram" checked />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="platform-item">
+        <div class="platform-info">
+          <div class="platform-icon facebook">
+            <img src="icons/facebook.png" />
+          </div>
+          <span class="platform-name">Facebook Feed</span>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="toggleFacebook" checked />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="platform-item">
+        <div class="platform-info">
+          <div class="platform-icon x">
+            <img src="icons/x.png" />
+          </div>
+          <span class="platform-name">X (Twitter) Feed</span>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="toggleX" checked />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Master Toggle -->
+    <div class="master-toggle" id="masterToggle">
+      <div class="master-toggle-circle">
+        <span class="master-toggle-text">ON</span>
+        <span class="master-toggle-subtext">YScroll is Active</span>
+      </div>
+    </div>
+  </div>
+  <a href="https://www.buymeacoffee.com/sanyidiriba" target="_blank" class="floating-donate"><img
+      src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=sanyidiriba&button_colour=5F7FFF&font_colour=ffffff&font_family=Comic&outline_colour=000000&coffee_colour=FFDD00" /></a>
+  <script src="popup.js"></script>
+</body>
+
 </html>
