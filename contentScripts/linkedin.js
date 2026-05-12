@@ -12,6 +12,10 @@
   let lastActiveTimestamp = null;
   const PLATFORM = "linkedin";
 
+  function isContextValid() {
+    return typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.id;
+  }
+
   function isFeedPage() {
     return (
       window.location.pathname === "/feed/" || window.location.pathname === "/"
@@ -81,6 +85,7 @@
   }
 
   async function loadSessionState() {
+    if (!isContextValid()) return;
     const data = await chrome.storage.local.get(["sessionState"]);
     const sessionState = data.sessionState || {};
     const platformState = sessionState[PLATFORM] || {};
@@ -94,6 +99,7 @@
   }
 
   async function saveSessionState() {
+    if (!isContextValid()) return;
     const data = await chrome.storage.local.get(["sessionState"]);
     const sessionState = data.sessionState || {};
     sessionState[PLATFORM] = {
@@ -107,6 +113,7 @@
    * Checks limits and blocks content if necessary
    */
   async function checkAndBlock() {
+    if (!isContextValid()) return;
     await loadSessionState();
 
     const data = await chrome.storage.local.get([
@@ -153,8 +160,7 @@
         (cooldownEnd - Date.now()) / 1000 / 60
       );
       showBlockOverlay(
-        `Session limit reached. Cool down for ${remainingMinutes} more minute${
-          remainingMinutes !== 1 ? "s" : ""
+        `Session limit reached. Cool down for ${remainingMinutes} more minute${remainingMinutes !== 1 ? "s" : ""
         }.`
       );
       lastActiveTimestamp = null;
@@ -190,8 +196,7 @@
       );
       if (remainingMinutes > 0) {
         showBlockOverlay(
-          `Session limit reached. Cool down for ${remainingMinutes} minute${
-            remainingMinutes !== 1 ? "s" : ""
+          `Session limit reached. Cool down for ${remainingMinutes} minute${remainingMinutes !== 1 ? "s" : ""
           }.`
         );
       }
@@ -264,6 +269,26 @@
     }
   }
 
+  function isVideoPlaying() {
+    const videos = document.querySelectorAll("video");
+    if (videos.length === 0) return false;
+
+    for (const video of videos) {
+      if (!video.paused && !video.ended && video.readyState > 2) {
+        // Check if video is somewhat visible in viewport
+        const rect = video.getBoundingClientRect();
+        const isVisible = (
+          rect.top >= -rect.height &&
+          rect.left >= -rect.width &&
+          rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) + rect.height &&
+          rect.right <= (window.innerWidth || document.documentElement.clientWidth) + rect.width
+        );
+        if (isVisible) return true;
+      }
+    }
+    return false;
+  }
+
   /**
    * Determines if time tracking should occur
    */
@@ -277,6 +302,10 @@
     }
 
     if (document.visibilityState !== "visible") {
+      return false;
+    }
+
+    if (!isVideoPlaying()) {
       return false;
     }
 
@@ -309,12 +338,16 @@
       await saveSessionState();
     }
 
+    const playing = isVideoPlaying();
+    console.log(`[YScroll Debug] LinkedIn, Track: ${shouldTrack}, Video: ${playing}`);
+
+    if (!isContextValid()) return;
     chrome.runtime.sendMessage({
       type: "TRACK_TIME",
       platform: "linkedin",
       url: window.location.href,
       isActive: document.visibilityState === "visible",
-      videoPlaying: true,
+      videoPlaying: playing,
     });
   }
 
@@ -330,12 +363,6 @@
   }
   trackingIntervalId = setInterval(trackTime, 1000);
 
-  window.addEventListener("beforeunload", () => {
-    if (trackingIntervalId) {
-      clearInterval(trackingIntervalId);
-      trackingIntervalId = null;
-    }
-  });
 
   // Monitor URL changes
   let lastUrl = location.href;

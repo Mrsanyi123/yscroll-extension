@@ -36,6 +36,8 @@ async function loadData() {
             tiktok: true,
             linkedin: true,
             instagram: true,
+            facebook: true,
+            x: true,
           },
           usage: data.usage || {
             today: 0,
@@ -76,6 +78,9 @@ function updateUI() {
     settings.platforms.linkedin;
   document.getElementById("toggleInstagram").checked =
     settings.platforms.instagram;
+  document.getElementById("toggleFacebook").checked =
+    settings.platforms.facebook;
+  document.getElementById("toggleX").checked = settings.platforms.x;
 
   const masterToggle = document.querySelector(".master-toggle-circle");
   const masterText = document.querySelector(".master-toggle-text");
@@ -147,6 +152,18 @@ function setupEventListeners() {
       settings.platforms.instagram = e.target.checked;
       await chrome.storage.local.set({ platforms: settings.platforms });
     });
+
+  document
+    .getElementById("toggleFacebook")
+    .addEventListener("change", async (e) => {
+      settings.platforms.facebook = e.target.checked;
+      await chrome.storage.local.set({ platforms: settings.platforms });
+    });
+
+  document.getElementById("toggleX").addEventListener("change", async (e) => {
+    settings.platforms.x = e.target.checked;
+    await chrome.storage.local.set({ platforms: settings.platforms });
+  });
 
   document
     .getElementById("masterToggle")
