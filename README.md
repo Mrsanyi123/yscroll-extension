@@ -54,7 +54,7 @@ The popup dashboard shows:
 2. **Session Limits**: Each visit to a platform starts a new session
 3. **Daily Limits**: All time across platforms counts toward your daily limit
 4. **Blocking**: When limits are reached, a full-screen overlay blocks the content
-5. **Reset**: Usage resets automatically at midnight
+5. **Reset Setting**: Usage resets automatically at midnight once the user is a sleep
 
 ## Settings
 
