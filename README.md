@@ -123,6 +123,7 @@ YScroll/
 
 1. Check Chrome storage permissions
 2. Try reinstalling the extension
+3. Contact the Developer if the issue presists or report the bug
 
 ## License
 
