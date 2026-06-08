@@ -133,7 +133,7 @@ MIT License - Feel free to modify and distribute
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## Support
+## Support 
 
 For issues or feature requests, please open an issue on GitHub.
 
